@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import os
 import gradio as gr
 from langchain_core.messages import HumanMessage, AIMessage
@@ -6,9 +6,9 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser   
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-load_dotenv()
+#load_dotenv()
 
-gemini_key=os.getenv("Gemini_Api_Key")
+gemini_key = os.environ.get("Gemini_Api_Key")
 
 system_prompt="""You are Nova, a friendly, witty, and intelligent AI assistant.  
 You can answer any question the user asks — from serious topics to silly curiosities — 
