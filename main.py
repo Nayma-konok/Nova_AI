@@ -51,11 +51,11 @@ def Chat(user_input,history):
 def clear_chat():
     return "",[]
 
+image_path = "Nova_Image.png"
+if not os.path.exists(image_path):
+    print(f"Warning: {image_path} not found! Chatbot will load without avatar.")
 
-page=gr.Blocks(
-    title="SuperNova",
-    theme=gr.themes.Soft(),
-)
+page = gr.Blocks(title="SuperNova")
 
 with page:
     gr.Markdown(
@@ -64,10 +64,11 @@ with page:
         Welcome to your personal conversation with Nova
         """
     )
-    chatbot=gr.Chatbot(type="messages",
-                       avatar_images=[None,"supernova_1993J.jpg"],
-                       show_label=False)
-
+    chatbot = gr.Chatbot(
+        avatar_images=[None, image_path if os.path.exists(image_path) else None],
+        show_label=False,
+        type="messages"  # fixes deprecated warning
+    )
     msg=gr.Textbox(show_label=False,
                    placeholder="Ask Nova anything...")
 
@@ -76,4 +77,12 @@ with page:
     Clear=gr.Button("Clear Chat",variant="secondary")
     Clear.click(clear_chat,outputs=[msg, chatbot])
 
-page.launch()
+port = int(os.environ.get("PORT", 7860))
+url = f"http://127.0.0.1:{port}"
+print(f"Nova AI is running locally at: {url}")
+
+page.launch(
+    server_name="0.0.0.0",
+    server_port=port,
+    share=True
+)
